@@ -1,0 +1,107 @@
+{
+  "name": "@enzymefinance/protocol-monorepo-root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "preconstruct": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "postinstall": "preconstruct dev && manypkg check",
+    "clean": "yarn manypkg exec yarn rimraf **/dist **/artifacts **/codegen",
+    "compile": "hardhat compile",
+    "coverage": "hardhat coverage && COVERAGE=true yarn test",
+    "dev": "preconstruct dev",
+    "build": "preconstruct build",
+    "release": "yarn compile && yarn build && changeset publish",
+    "typecheck": "manypkg exec tsc --noEmit",
+    "lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:solhint",
+    "lint:eslint": "eslint \"{*,**/*}.{js,jsx,ts,tsx}\"",
+    "lint:prettier": "prettier --list-different \"{*,**/*}.{sol,json}\"",
+    "lint:solhint": "solhint --max-warnings 0 \"contracts/{*,**/*}.sol\"",
+    "format": "yarn format:prettier && yarn format:eslint && yarn format:solhint",
+    "format:prettier": "yarn lint:prettier --write",
+    "format:eslint": "yarn lint:eslint --fix",
+    "format:solhint": "yarn lint:solhint --fix",
+    "test": "NODE_OPTIONS=\"--max_old_space_size=4096\" TS_JEST_DISABLE_VER_CHECKER=true jest",
+    "deploy:kovan": "hardhat deploy --network kovan",
+    "export:kovan": "hardhat export --network kovan --export deployments/kovan.json",
+    "verify:kovan": "hardhat etherscan-verify --network kovan",
+    "deploy:mainnet": "hardhat deploy --network mainnet",
+    "deploy:hardhat": "hardhat deploy --network hardhat",
+    "export:mainnet": "hardhat export --network mainnet --export deployments/mainnet.json",
+    "export:hardhat": "hardhat export --network localhost --export deployments/hardhat.json",
+    "verify:mainnet": "hardhat etherscan-verify --network mainnet",
+    "deploy:bsctestnet": "hardhat deploy --network bsctestnet",
+    "export:bsctestnet": "hardhat export --network bsctestnet --export deployments/bsctestnet.json",
+    "deploy:bscmainnet": "hardhat deploy --network bscmainnet",
+    "export:bscmainnet": "hardhat export --network bscmainnet --export deployments/bscmainnet.json",
+    "verify:bscmainnet": "hardhat etherscan-verify --network bscmainnet ",
+    "fork:bsc": "npx hardhat node --fork https://speedy-nodes-nyc.moralis.io/2d756f760846a191cb646b2b/bsc/mainnet"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.17.0",
+    "@enzymefinance/babel-config": "^1.0.14",
+    "@enzymefinance/ethers": "^1.0.0",
+    "@enzymefinance/hardhat": "^1.0.0",
+    "@enzymefinance/protocol": "^3.0.1",
+    "@manypkg/cli": "^0.18.0",
+    "@openzeppelin/contracts": "^3.4.1",
+    "@preconstruct/cli": "^2.1.4",
+    "@types/jest": "^27.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "babel-jest": "^27.2.0",
+    "decimal.js": "^10.3.1",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "hardhat": "^2.6.4",
+    "husky": "^4.3.0",
+    "jest": "^27.2.0",
+    "lint-staged": "^11.1.2",
+    "postinstall": "^0.7.3",
+    "prettier": "^2.4.0",
+    "prettier-plugin-solidity": "^1.0.0-alpha.59",
+    "rimraf": "^3.0.2",
+    "solhint": "^3.3.4",
+    "typescript": "^4.4.3"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/ban-types": "off",
+      "@typescript-eslint/no-non-null-assertion": "off"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix",
+    "*.json": "prettier --write",
+    "*.sol": [
+      "prettier --write",
+      "solhint --fix"
+    ]
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-etherscan": "^2.1.8"
+  }
+}

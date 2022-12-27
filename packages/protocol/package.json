@@ -1,0 +1,43 @@
+{
+  "name": "@enzymefinance/protocol",
+  "version": "3.0.0",
+  "description": "Technology Regulated and Operated Investment Funds",
+  "author": "Enzyme Council DAO <council@enzyme.finance>",
+  "license": "GPL-3.0",
+  "homepage": "https://enzyme.finance",
+  "main": "dist/enzymefinance-protocol.cjs.js",
+  "module": "dist/enzymefinance-protocol.esm.js",
+  "browser": {
+    "./dist/enzymefinance-protocol.cjs.js": "./dist/enzymefinance-protocol.browser.cjs.js",
+    "./dist/enzymefinance-protocol.esm.js": "./dist/enzymefinance-protocol.browser.esm.js"
+  },
+  "files": [
+    "dist",
+    "artifacts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enzymefinance/protocol.git"
+  },
+  "bugs": {
+    "url": "https://github.com/enzymefinance/protocol/issues"
+  },
+  "keywords": [
+    "DeFi",
+    "Ethereum",
+    "Enzyme",
+    "Enzyme Finance",
+    "Smart Contracts",
+    "Solidity"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.15.4",
+    "@enzymefinance/ethers": "^1.0.0",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.7",
+    "ethers-eip712": "^0.2.0"
+  }
+}
